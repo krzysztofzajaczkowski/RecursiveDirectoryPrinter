@@ -6,7 +6,8 @@ namespace RecursiveDirectoryPrinter
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            var processor = new Processor();
+            processor.RecursivePrint(args[0], 0);
         }
     }
 }
