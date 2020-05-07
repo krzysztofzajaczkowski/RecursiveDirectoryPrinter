@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Microsoft.VisualBasic.CompilerServices;
 using RecursiveDirectoryPrinter.ExtensionMethods;
 
 namespace RecursiveDirectoryPrinter
@@ -9,14 +11,18 @@ namespace RecursiveDirectoryPrinter
     {
         public bool RecursivePrint(string path, int depth)
         {
+            string padding = new String('\t', depth);
+            DirectoryInfo dirInfo = new DirectoryInfo(path);
+            int directoryChildrenCount = dirInfo.EnumerateDirectories().Count() + dirInfo.EnumerateFiles().Count();
+
+            Console.WriteLine($"{padding}{dirInfo.Name} ({directoryChildrenCount}) {dirInfo.GetRahs()}");
+
             string[] directories = Directory.GetDirectories(path);
             string[] files = Directory.GetFiles(path);
+
             foreach (var directoryPath in directories)
             {
-                string padding = new String('\t', depth);
-                DirectoryInfo dirInfo = new DirectoryInfo(directoryPath);
-                int directoryChildrenCount = dirInfo.EnumerateDirectories().Count() + dirInfo.EnumerateFiles().Count();
-                Console.WriteLine($"{padding}{dirInfo.Name} ({directoryChildrenCount}) {dirInfo.GetRahs()}");
+                
                 RecursivePrint(directoryPath, depth + 1);
             }
 
@@ -41,5 +47,26 @@ namespace RecursiveDirectoryPrinter
             return directoryInfo.GetOldestChildrenDate();
         }
 
+        public SortedDictionary<string, int> GetSortedDirectChildren(string path)
+        {
+            SortedDictionary<string, int> directChildrenDict = new SortedDictionary<string, int>(new StringComparer());
+
+            string[] directories = Directory.GetDirectories(path);
+            string[] files = Directory.GetFiles(path);
+            foreach (var directoryPath in directories)
+            {
+                DirectoryInfo dirInfo = new DirectoryInfo(directoryPath);
+                int directoryChildrenCount = dirInfo.EnumerateDirectories().Count() + dirInfo.EnumerateFiles().Count();
+                directChildrenDict.Add(dirInfo.Name, directoryChildrenCount);
+            }
+
+            foreach (var filePath in files)
+            {
+                FileInfo fileInfo = new FileInfo(filePath);
+                directChildrenDict.Add(fileInfo.Name, (int) fileInfo.Length);
+            }
+
+            return directChildrenDict;
+        }
     }
 }
