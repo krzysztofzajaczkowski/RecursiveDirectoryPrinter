@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using RecursiveDirectoryPrinter.ExtensionMethods;
 
 namespace RecursiveDirectoryPrinter
 {
@@ -32,6 +33,12 @@ namespace RecursiveDirectoryPrinter
             string padding = new String('\t', depth);
             FileInfo fileInfo = new FileInfo(path);
             Console.WriteLine($"{padding}{fileInfo.Name} ({fileInfo.Length} bytes)");
+        }
+
+        public DateTime GetOldestFileInDirectory(string path)
+        {
+            var directoryInfo = new DirectoryInfo(path);
+            return directoryInfo.GetOldestChildrenDate();
         }
 
     }
