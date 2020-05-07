@@ -8,6 +8,7 @@ namespace RecursiveDirectoryPrinter
         {
             var processor = new Processor();
             processor.RecursivePrint(args[0], 0);
+            Console.WriteLine($"Oldest file: {processor.GetOldestFileInDirectory(args[0])}");
         }
     }
 }
