@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 namespace RecursiveDirectoryPrinter
 {
+    [Serializable]
     public class StringComparer : IComparer<string>
     {
         public int Compare(string x, string y)
