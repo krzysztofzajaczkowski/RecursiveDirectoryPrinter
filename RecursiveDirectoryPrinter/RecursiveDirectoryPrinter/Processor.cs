@@ -16,7 +16,7 @@ namespace RecursiveDirectoryPrinter
                 string padding = new String('\t', depth);
                 DirectoryInfo dirInfo = new DirectoryInfo(directoryPath);
                 int directoryChildrenCount = dirInfo.EnumerateDirectories().Count() + dirInfo.EnumerateFiles().Count();
-                Console.WriteLine($"{padding}{dirInfo.Name} ({directoryChildrenCount})");
+                Console.WriteLine($"{padding}{dirInfo.Name} ({directoryChildrenCount}) {dirInfo.GetRahs()}");
                 RecursivePrint(directoryPath, depth + 1);
             }
 
@@ -32,7 +32,7 @@ namespace RecursiveDirectoryPrinter
         {
             string padding = new String('\t', depth);
             FileInfo fileInfo = new FileInfo(path);
-            Console.WriteLine($"{padding}{fileInfo.Name} ({fileInfo.Length} bytes)");
+            Console.WriteLine($"{padding}{fileInfo.Name} ({fileInfo.Length} bytes) {fileInfo.GetRahs()}");
         }
 
         public DateTime GetOldestFileInDirectory(string path)
