@@ -12,6 +12,10 @@ namespace RecursiveDirectoryPrinter
             string[] files = Directory.GetFiles(path);
             foreach (var directoryPath in directories)
             {
+                string padding = new String('\t', depth);
+                DirectoryInfo dirInfo = new DirectoryInfo(directoryPath);
+                int directoryChildrenCount = dirInfo.EnumerateDirectories().Count() + dirInfo.EnumerateFiles().Count();
+                Console.WriteLine($"{padding}{dirInfo.Name} ({directoryChildrenCount})");
                 RecursivePrint(directoryPath, depth + 1);
             }
 
