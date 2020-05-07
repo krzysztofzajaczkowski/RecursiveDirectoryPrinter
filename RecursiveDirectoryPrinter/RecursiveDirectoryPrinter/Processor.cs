@@ -16,9 +16,28 @@ namespace RecursiveDirectoryPrinter
             int directoryChildrenCount = dirInfo.EnumerateDirectories().Count() + dirInfo.EnumerateFiles().Count();
 
             Console.WriteLine($"{padding}{dirInfo.Name} ({directoryChildrenCount}) {dirInfo.GetRahs()}");
+            string[] directories;
+            string[] files;
 
-            string[] directories = Directory.GetDirectories(path);
-            string[] files = Directory.GetFiles(path);
+            try
+            {
+                directories = Directory.GetDirectories(path);
+            }
+            catch (DirectoryNotFoundException e)
+            {
+                Console.WriteLine($"Invalid path! Error: {e}");
+                return false;
+            }
+
+            try
+            {
+                files = Directory.GetFiles(path);
+            }
+            catch (FileNotFoundException e)
+            {
+                Console.WriteLine($"Invalid path! Error: {e}");
+                return false;
+            }
 
             foreach (var directoryPath in directories)
             {
@@ -51,8 +70,28 @@ namespace RecursiveDirectoryPrinter
         {
             SortedDictionary<string, int> directChildrenDict = new SortedDictionary<string, int>(new StringComparer());
 
-            string[] directories = Directory.GetDirectories(path);
-            string[] files = Directory.GetFiles(path);
+            string[] directories;
+            string[] files;
+
+            try
+            {
+                directories = Directory.GetDirectories(path);
+            }
+            catch (DirectoryNotFoundException e)
+            {
+                Console.WriteLine($"Invalid path! Error: {e}");
+                return null;
+            }
+
+            try
+            {
+                files = Directory.GetFiles(path);
+            }
+            catch (FileNotFoundException e)
+            {
+                Console.WriteLine($"Invalid path! Error: {e}");
+                return null;
+            }
             foreach (var directoryPath in directories)
             {
                 DirectoryInfo dirInfo = new DirectoryInfo(directoryPath);
